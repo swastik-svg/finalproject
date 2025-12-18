@@ -2,21 +2,15 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 
-// Function to safely get environment variables
+// Function to safely get environment variables for Vite/Vercel
 const getEnv = (key: string, fallback: string): string => {
-  try {
-    // Check if process and process.env exist (some build tools provide this)
-    if (typeof process !== 'undefined' && process.env && process.env[key]) {
-      return process.env[key] as string;
-    }
-    // Check if import.meta.env exists (Vite/ESM style)
+  // Vite uses import.meta.env for environment variables
+  // Vercel UI handles these if you add them in Project Settings -> Environment Variables
+  const viteKey = `VITE_${key}`;
+  // @ts-ignore
+  if (import.meta.env && import.meta.env[viteKey]) {
     // @ts-ignore
-    if (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env[`VITE_${key}`]) {
-      // @ts-ignore
-      return import.meta.env[`VITE_${key}`] as string;
-    }
-  } catch (e) {
-    // Silently fail and use fallback
+    return import.meta.env[viteKey];
   }
   return fallback;
 };
