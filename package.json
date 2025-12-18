@@ -1,4 +1,3 @@
-
 {
   "name": "smart-health-nepal",
   "private": true,
@@ -14,7 +13,7 @@
     "react-dom": "^19.0.0",
     "lucide-react": "^0.446.0",
     "firebase": "^10.7.1",
-    "nepali-date-converter": "^3.4.1"
+    "nepali-date-converter": "^3.4.0"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",
