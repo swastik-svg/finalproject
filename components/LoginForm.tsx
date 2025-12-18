@@ -49,7 +49,9 @@ export const LoginForm: React.FC<LoginFormProps> = ({ users, onLoginSuccess, ini
 
     setIsLoading(true);
     try {
+      // Simulate network delay
       await new Promise(resolve => setTimeout(resolve, 800));
+      
       const foundUser = users.find(
         u => u.username.toLowerCase() === formData.username.trim().toLowerCase() && u.password === formData.password
       );
@@ -138,7 +140,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ users, onLoginSuccess, ini
           ) : (
             <>
               <LogIn size={20} />
-              <span>लगइन गर्नुहोस्</span>
+              <span>लगइन गर्नुहोस् (Login)</span>
             </>
           )}
         </button>
