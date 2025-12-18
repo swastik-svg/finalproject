@@ -1,8 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 
-// Safely access environment variables with fallbacks. 
-// Using a type cast for import.meta to avoid errors when vite/client types are missing.
+// Safely access environment variables
 const env = (import.meta as any).env || {};
 
 const firebaseConfig = {
