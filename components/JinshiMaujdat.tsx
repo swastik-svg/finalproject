@@ -259,6 +259,8 @@ const BulkInventoryEntryModal: React.FC<BulkInventoryEntryModalProps> = ({
             specification: '', 
             unit: '',
             currentQuantity: 0,
+            rate: undefined,
+            tax: undefined,
             totalAmount: 0,
             batchNo: '',
             expiryDateAd: '',
@@ -664,20 +666,20 @@ const BulkInventoryEntryModal: React.FC<BulkInventoryEntryModalProps> = ({
             return {
                 ...item,
                 itemName: item.itemName.trim(),
-                uniqueCode: item.uniqueCode?.trim() || "",
-                sanketNo: item.sanketNo?.trim() || "",
-                ledgerPageNo: item.ledgerPageNo?.trim() || "",
-                dakhilaNo: mode === 'add' ? commonDetails.dakhilaNo.trim() : "",
-                itemClassification: item.itemClassification?.trim() || "",
-                specification: item.specification?.trim() || "",
+                uniqueCode: item.uniqueCode?.trim() || undefined,
+                sanketNo: item.sanketNo?.trim() || undefined,
+                ledgerPageNo: item.ledgerPageNo?.trim() || undefined,
+                dakhilaNo: mode === 'add' ? commonDetails.dakhilaNo.trim() : undefined,
+                itemClassification: item.itemClassification?.trim() || undefined,
+                specification: item.specification?.trim() || undefined,
                 unit: item.unit.trim(),
                 currentQuantity: parseFloat(item.currentQuantity.toString()),
-                rate: item.rate !== undefined && item.rate !== null ? parseFloat(item.rate.toString()) : 0,
-                tax: item.tax !== undefined && item.tax !== null ? parseFloat(item.tax.toString()) : 0,
-                batchNo: item.batchNo?.trim() || "",
-                expiryDateAd: item.expiryDateAd || "",
-                expiryDateBs: item.expiryDateBs || "",
-                remarks: item.remarks?.trim() || "",
+                rate: item.rate !== undefined && item.rate !== null ? parseFloat(item.rate.toString()) : undefined,
+                tax: item.tax !== undefined && item.tax !== null ? parseFloat(item.tax.toString()) : undefined,
+                batchNo: item.batchNo?.trim() || undefined,
+                expiryDateAd: item.expiryDateAd || undefined,
+                expiryDateBs: item.expiryDateBs || undefined,
+                remarks: item.remarks?.trim() || undefined,
                 storeId: commonDetails.storeId, 
             };
         }).filter(item => item.itemName); 
@@ -974,7 +976,7 @@ const BulkInventoryEntryModal: React.FC<BulkInventoryEntryModalProps> = ({
                                         <td className="px-1 py-1">
                                             <Input
                                                 type="number"
-                                                value={item.rate === undefined || item.rate === null ? '' : item.rate}
+                                                value={item.rate === undefined ? '' : item.rate}
                                                 onChange={e => handleItemFieldChange(item.id, 'rate', e.target.value)}
                                                 placeholder="०.००"
                                                 min="0"
@@ -987,7 +989,7 @@ const BulkInventoryEntryModal: React.FC<BulkInventoryEntryModalProps> = ({
                                         <td className="px-1 py-1">
                                             <Input
                                                 type="number"
-                                                value={item.tax === undefined || item.tax === null ? '' : item.tax}
+                                                value={item.tax === undefined ? '' : item.tax}
                                                 onChange={e => handleItemFieldChange(item.id, 'tax', e.target.value)}
                                                 placeholder="०.००"
                                                 min="0"

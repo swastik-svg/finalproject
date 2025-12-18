@@ -26,7 +26,7 @@ const INITIAL_SETTINGS: OrganizationSettings = {
     logoUrl: ''
 };
 
-// Default Admin User to ensure system access if DB is empty
+// Default Admin User to ensure system access even if DB is fresh or offline
 const DEFAULT_ADMIN: User = {
     id: 'superadmin_init',
     username: 'superadmin',
@@ -40,6 +40,7 @@ const DEFAULT_ADMIN: User = {
 };
 
 const App: React.FC = () => {
+  // Initialize with DEFAULT_ADMIN so it's always there
   const [users, setUsers] = useState<User[]>([DEFAULT_ADMIN]);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [currentFiscalYear, setCurrentFiscalYear] = useState<string>('');
@@ -71,16 +72,18 @@ const App: React.FC = () => {
     const usersRef = ref(db, 'users');
     onValue(usersRef, (snapshot) => {
         const data = snapshot.val();
-        let userList: User[] = [];
+        let fetchedUsers: User[] = [];
         if (data) {
-            userList = Object.keys(data).map(key => ({
+            fetchedUsers = Object.keys(data).map(key => ({
                 ...data[key],
                 id: data[key].id || key
             }));
         }
-        // Always include superadmin and filter duplicates
-        const filteredList = userList.filter(u => u.username?.toLowerCase() !== 'superadmin');
-        setUsers([DEFAULT_ADMIN, ...filteredList]);
+        
+        // Filter out any user from DB that tries to mimic 'superadmin' 
+        // to ensure our hardcoded DEFAULT_ADMIN is the one used.
+        const otherUsers = fetchedUsers.filter(u => u.username?.toLowerCase() !== 'superadmin');
+        setUsers([DEFAULT_ADMIN, ...otherUsers]);
     });
 
     const settingsRef = ref(db, 'settings');
@@ -203,7 +206,8 @@ const App: React.FC = () => {
           </div>
           
           <div className="bg-slate-50 border-t border-slate-100 p-4 text-center">
-             <p className="text-xs text-slate-400">&copy; {new Date().getFullYear()} {ORG_NAME}.</p>
+             <p className="text-xs text-slate-400">&copy; {new Date().getFullYear()} {ORG_NAME}. All rights reserved.</p>
+             <p className="text-[10px] text-slate-300 mt-2 font-medium">Developed By : Swastik Khatiwada</p>
           </div>
         </div>
       </div>
